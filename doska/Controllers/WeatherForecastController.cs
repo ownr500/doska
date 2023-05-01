@@ -1,3 +1,5 @@
+using doska.Data.Entities;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace doska.Controllers;
@@ -12,15 +14,32 @@ public class WeatherForecastController : ControllerBase
     };
 
     private readonly ILogger<WeatherForecastController> _logger;
+    private readonly UserManager<User> _userManager;
+    private readonly RoleManager<Role> _roleManager;
 
-    public WeatherForecastController(ILogger<WeatherForecastController> logger)
+    public WeatherForecastController(ILogger<WeatherForecastController> logger,
+        UserManager<User> userManager,
+        RoleManager<Role> roleManager)
     {
         _logger = logger;
+        _userManager = userManager;
+        _roleManager = roleManager;
     }
 
     [HttpGet(Name = "GetWeatherForecast")]
-    public IEnumerable<WeatherForecast> Get()
+    public async Task<IEnumerable<WeatherForecast>> Get()
     {
+        await _userManager.CreateAsync(new User
+        {
+            Email = "dimon4ik@asdsdwq.hhh",
+            UserName = "Dima"
+        }, "UFO123");
+        await  _roleManager.CreateAsync(new Role
+        {
+            Name = "Admin"
+        });
+        var user = await _userManager.FindByNameAsync("Vasya");
+        await _userManager.AddToRoleAsync(user, "Admin");
         return Enumerable.Range(1, 5).Select(index => new WeatherForecast
             {
                 Date = DateTime.Now.AddDays(index),
