@@ -9,10 +9,12 @@ namespace doska.Services;
 public class UserService : IUserService
 {
     private readonly UserManager<User> _userManager;
+    private readonly IHttpContextAccessor _contextAccessor;
 
-    public UserService(UserManager<User> userManager)
+    public UserService(UserManager<User> userManager, IHttpContextAccessor contextAccessor)
     {
         _userManager = userManager;
+        _contextAccessor = contextAccessor;
     }
 
     public async Task<RegisterResponse> Register(RegisterRequest registerRequest)
@@ -31,5 +33,15 @@ public class UserService : IUserService
             Errors = result.Errors
         };
         return response;
+    }
+
+    public async Task<ActionResult> Delete()
+    {
+        var userClaim = _contextAccessor.HttpContext?.User;
+        var userId = _userManager.GetUserId(userClaim);
+        var user = await _userManager.FindByIdAsync(userId);
+        var result = await _userManager.DeleteAsync(user);
+        if (result.Succeeded) return new OkResult();
+        return new NotFoundResult();
     }
 }
