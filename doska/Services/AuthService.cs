@@ -2,7 +2,6 @@
 using System.Security.Claims;
 using System.Text;
 using doska.Data.Entities;
-using doska.Helper;
 using doska.Options;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
