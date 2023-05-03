@@ -20,19 +20,19 @@ public class UserController : Controller
     [HttpPost]
     public Task<RegisterResponse> Register([FromBody] RegisterRequest registerRequest)
     {
-        return _userService.Register(registerRequest);
+        return _userService.RegisterAsync(registerRequest);
     }
 
     [HttpPost]
-    public async Task<ActionResult<SigninResponse>> Signin([FromBody] SigninRequest signinRequest)
+    public Task<ActionResult<SigninResponse>> Signin([FromBody] SigninRequest signinRequest)
     {
-        return await _signInService.SignIn(signinRequest);
+        return _signInService.SignInAsync(signinRequest);
     }
 
     [HttpPost]
     [Authorize]
     public Task<ActionResult> Delete()
     {
-        return _userService.Delete();
+        return _userService.DeleteAsync();
     }
 }

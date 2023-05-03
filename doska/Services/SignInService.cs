@@ -15,7 +15,7 @@ public class SignInService : ISignInService
         _userManager = userManager;
         _authService = authService;
     }
-    public async Task<ActionResult<SigninResponse>> SignIn(SigninRequest signinRequest)
+    public async Task<ActionResult<SigninResponse>> SignInAsync(SigninRequest signinRequest)
     {
         var user = await _userManager.FindByEmailAsync(signinRequest.Email);
         if (user == null || !await _userManager.CheckPasswordAsync(user, signinRequest.Password))

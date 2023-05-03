@@ -5,5 +5,5 @@ namespace doska.Services;
 
 public interface ISignInService
 {
-    Task<ActionResult<SigninResponse>> SignIn(SigninRequest signinRequest);
+    Task<ActionResult<SigninResponse>> SignInAsync(SigninRequest signinRequest);
 }

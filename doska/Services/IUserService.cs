@@ -5,6 +5,6 @@ namespace doska.Services;
 
 public interface IUserService
 {
-    Task<RegisterResponse> Register(RegisterRequest registerRequest);
-    Task<ActionResult> Delete();
+    Task<RegisterResponse> RegisterAsync(RegisterRequest registerRequest);
+    Task<ActionResult> DeleteAsync();
 }

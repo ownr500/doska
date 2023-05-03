@@ -17,7 +17,7 @@ public class UserService : IUserService
         _contextAccessor = contextAccessor;
     }
 
-    public async Task<RegisterResponse> Register(RegisterRequest registerRequest)
+    public async Task<RegisterResponse> RegisterAsync(RegisterRequest registerRequest)
     {
         var user = new User
         {
@@ -35,7 +35,7 @@ public class UserService : IUserService
         return response;
     }
 
-    public async Task<ActionResult> Delete()
+    public async Task<ActionResult> DeleteAsync()
     {
         var userClaim = _contextAccessor.HttpContext?.User;
         var userId = _userManager.GetUserId(userClaim);
