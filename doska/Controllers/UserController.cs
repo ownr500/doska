@@ -34,4 +34,11 @@ public class UserController : Controller
     {
         return _userService.DeleteAsync();
     }
+
+    [HttpPost]
+    [Authorize]
+    public Task<ActionResult<ChangePasswordResponse>> ChangePassword(ChangePasswordRequest changePasswordRequest)
+    {
+        return _userService.ChangePasswordAsync(changePasswordRequest);
+    }
 }

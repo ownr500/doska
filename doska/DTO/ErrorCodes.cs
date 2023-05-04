@@ -2,5 +2,6 @@
 
 public enum ErrorCodes
 {
-    EMAIL_NOT_FOUND
+    EMAIL_NOT_FOUND,
+    PASSWORD_TOO_SHORT
 }

@@ -36,11 +36,29 @@ public class UserService : IUserService
 
     public async Task<ActionResult> DeleteAsync()
     {
-        var userClaim = _contextAccessor.HttpContext?.User;
-        var userId = _userManager.GetUserId(userClaim);
-        var user = await _userManager.FindByIdAsync(userId);
+        var user = await GetCurrentUserAsync();
         var result = await _userManager.DeleteAsync(user);
         if (result.Succeeded) return new OkResult();
         return new NotFoundResult();
+    }
+
+    public async Task<ActionResult<ChangePasswordResponse>> ChangePasswordAsync(ChangePasswordRequest changePasswordRequest)
+    {
+        var user = await GetCurrentUserAsync();
+        var result = await _userManager.ChangePasswordAsync(user, changePasswordRequest.Password,
+            changePasswordRequest.NewPassword);
+        return new ActionResult<ChangePasswordResponse>(new ChangePasswordResponse
+        {
+            Succeeded = result.Succeeded,
+            Errors = result.Errors
+        });
+    }
+
+    private async Task<User> GetCurrentUserAsync()
+    {
+        var userClaim = _contextAccessor.HttpContext?.User;
+        var userId = _userManager.GetUserId(userClaim);
+        var user = await _userManager.FindByIdAsync(userId);
+        return user;
     }
 }
