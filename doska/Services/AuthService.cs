@@ -22,7 +22,9 @@ public class AuthService : IAuthService
     public string GenerateToken(User user)
     {
         var claims = new List<Claim> { new(ClaimTypes.NameIdentifier, user.Id.ToString()) };
-            
+        var roleClaims = user.UserRoles.Select(role => new Claim(ClaimTypes.Role, role.Role.Name!));
+        claims.AddRange(roleClaims);
+        
         var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_options.Secret));
         var signInCredentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
         var jwtSecurityToken = new JwtSecurityToken(
