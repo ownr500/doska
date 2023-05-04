@@ -1,6 +1,4 @@
-﻿using doska.Controllers;
-using doska.Data.Entities;
-using doska.DTO;
+﻿using doska.DTO;
 using Microsoft.AspNetCore.Mvc;
 
 namespace doska.Services;

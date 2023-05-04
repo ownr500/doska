@@ -1,5 +1,4 @@
-﻿using doska.Data.Entities;
-using doska.DTO;
+﻿using doska.DTO;
 using doska.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
