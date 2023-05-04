@@ -8,12 +8,12 @@ namespace doska.Services;
 public class SignInService : ISignInService
 {
     private readonly UserManager<User> _userManager;
-    private readonly IAuthService _authService;
+    private readonly ITokenService _tokenService;
 
-    public SignInService(UserManager<User> userManager, IAuthService authService)
+    public SignInService(UserManager<User> userManager, ITokenService tokenService)
     {
         _userManager = userManager;
-        _authService = authService;
+        _tokenService = tokenService;
     }
     public async Task<ActionResult<SigninResponse>> SignInAsync(SigninRequest signinRequest)
     {
@@ -26,6 +26,6 @@ public class SignInService : ISignInService
                 Error = "FAILED"
             };
         }
-        return new SigninResponse {Success = true, Token = _authService.GenerateToken(user)};
+        return new SigninResponse {Success = true, Token = _tokenService.Generate(user)};
     }
 }

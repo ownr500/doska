@@ -8,18 +8,18 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace doska.Services;
 
-public class AuthService : IAuthService
+public class TokenService : ITokenService
 {
     private readonly JwtSecurityTokenHandler _jwtSecurityTokenHandler;
     private readonly JWTOptions _options;
 
-    public AuthService(IOptions<JWTOptions> options, JwtSecurityTokenHandler jwtSecurityTokenHandler)
+    public TokenService(IOptions<JWTOptions> options, JwtSecurityTokenHandler jwtSecurityTokenHandler)
     {
         _jwtSecurityTokenHandler = jwtSecurityTokenHandler;
         _options = options.Value;
     }
 
-    public string GenerateToken(User user)
+    public string Generate(User user)
     {
         var claims = new List<Claim> { new(ClaimTypes.NameIdentifier, user.Id.ToString()) };
         var roleClaims = user.UserRoles.Select(role => new Claim(ClaimTypes.Role, role.Role.Name!));
