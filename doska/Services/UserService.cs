@@ -1,4 +1,5 @@
-﻿using doska.Data.Entities;
+﻿using doska.Controllers;
+using doska.Data.Entities;
 using doska.DTO;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -23,7 +24,8 @@ public class UserService : IUserService
             FirstName = registerRequest.FirstName,
             LastName = registerRequest.LastName,
             Email = registerRequest.Email,
-            UserName = registerRequest.Email
+            UserName = registerRequest.Email,
+            CreationDate = DateTime.Now
         };
         var result = await _userManager.CreateAsync(user, registerRequest.Password);
         var response = new RegisterResponse
@@ -52,6 +54,32 @@ public class UserService : IUserService
             Succeeded = result.Succeeded,
             Errors = result.Errors
         });
+    }
+
+    public async Task<UserInfoResponse> GetUserInfoAsync(UserInfoRequest userInfoRequest)
+    {
+        var user = await _userManager.FindByEmailAsync(userInfoRequest.Email);
+        return new UserInfoResponse
+        {
+            FirstName = user.FirstName,
+            LastName = user.LastName,
+            CreationDate = user.CreationDate
+        };
+    }
+
+    public Task<List<UserListDTO>> GetAllUsers()
+    {
+        IQueryable<User> users = _userManager.Users;
+        List<UserListDTO> usersList = users.Select(item => new UserListDTO()
+        {
+            Id = item.Id,
+            IsActive = item.IsActive,
+            Email = item.Email,
+            FirstName = item.FirstName,
+            LastName = item.LastName,
+            CreationDate = item.CreationDate
+        }).ToList();
+        return Task.FromResult(usersList);
     }
 
     private async Task<User> GetCurrentUserAsync()

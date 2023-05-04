@@ -1,4 +1,5 @@
-﻿using doska.DTO;
+﻿using doska.Data.Entities;
+using doska.DTO;
 using doska.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -40,5 +41,19 @@ public class UserController : Controller
     public Task<ActionResult<ChangePasswordResponse>> ChangePassword(ChangePasswordRequest changePasswordRequest)
     {
         return _userService.ChangePasswordAsync(changePasswordRequest);
+    }
+
+    [HttpPost]
+    [Authorize]
+    public Task<UserInfoResponse> GetUserInfo([FromBody]UserInfoRequest userInfoRequest)
+    {
+        return _userService.GetUserInfoAsync(userInfoRequest);
+    }
+    
+    [HttpGet]
+    [Authorize(Roles = "Admin")]
+    public Task<List<UserListDTO>> GetUsers()
+    {
+        return _userService.GetAllUsers();
     }
 }
