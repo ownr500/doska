@@ -22,6 +22,7 @@ public class AppDbContext : IdentityDbContext<User, Role, Guid,
   public override DbSet<IdentityRoleClaim<Guid>> RoleClaims { get; set; } = default!;
   public override DbSet<UserRole> UserRoles { get; set; } = default!;
   public override DbSet<Role> Roles { get; set; } = default!;
+  public DbSet<Post> Posts { get; set; } = default!;
   public override DbSet<IdentityUserClaim<Guid>> UserClaims { get; set; } = default!;
 
   protected override void OnModelCreating(ModelBuilder modelBuilder)
