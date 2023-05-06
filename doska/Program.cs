@@ -95,6 +95,7 @@ builder.Services.AddSwaggerGen(options =>
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<ISignInService, SignInService>();
+builder.Services.AddScoped<IPostService, PostService>();
 builder.Services.AddScoped<JwtSecurityTokenHandler>();
 builder.Services.Configure<JWTOptions>(config.GetSection("JWT"));
 
