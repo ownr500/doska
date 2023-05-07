@@ -1,4 +1,5 @@
 using doska.DTO;
+using Microsoft.AspNetCore.Mvc;
 
 namespace doska.Services;
 
@@ -8,4 +9,5 @@ public interface IPostService
     Task<List<PostDto>> GetAllPostsAsync();
     Task<List<UserPostDto>> GetUserPostsAsync();
     Task<PostEditResponse> EditPostAsync(PostEditRequest postEditRequest);
+    Task<ActionResult> DeletePostAsync(DeletePostRequest deletePostRequest);
 }

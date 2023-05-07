@@ -1,6 +1,7 @@
 using doska.Data;
 using doska.Data.Entities;
 using doska.DTO;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace doska.Services;
@@ -78,7 +79,6 @@ public class PostService : IPostService
 
     public async Task<PostEditResponse> EditPostAsync(PostEditRequest postEditRequest)
     {
-        //check if current user has post with postid
         var user = await _userService.GetCurrentUserAsync();
         var post = await _appDbContext.Posts.Where(post => post.Id == postEditRequest.PostId).ToListAsync();
         var postToEdit = post.FirstOrDefault();
@@ -95,5 +95,19 @@ public class PostService : IPostService
             Title = postToEdit.Title,
             Content = postToEdit.Content
         };
+    }
+
+    public async Task<ActionResult> DeletePostAsync(DeletePostRequest deletePostRequest)
+    {
+        var user = await _userService.GetCurrentUserAsync();
+        var post = await _appDbContext.Posts.FindAsync(deletePostRequest.PostId);
+        if (post == null || user.Id != post.UserId)
+        {
+            return new BadRequestResult();
+        }
+
+        _appDbContext.Posts.Remove(post);
+        await _appDbContext.SaveChangesAsync();
+        return new OkResult();
     }
 }

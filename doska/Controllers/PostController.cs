@@ -41,4 +41,11 @@ public class PostController : Controller
     {
         return _postService.EditPostAsync(postEditRequest);
     }
+
+    [HttpPost]
+    [Authorize]
+    public Task<ActionResult> DeletePost(DeletePostRequest deletePostRequest)
+    {
+        return _postService.DeletePostAsync(deletePostRequest);
+    }
 }
