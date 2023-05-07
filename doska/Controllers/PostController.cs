@@ -34,4 +34,11 @@ public class PostController : Controller
     {
         return _postService.GetUserPostsAsync();
     }
+
+    [HttpPost]
+    [Authorize]
+    public Task<PostEditResponse> EditPost(PostEditRequest postEditRequest)
+    {
+        return _postService.EditPostAsync(postEditRequest);
+    }
 }

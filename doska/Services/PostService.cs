@@ -75,4 +75,25 @@ public class PostService : IPostService
             ExpirationDate = post.ExpirationDate
         }).ToList();
     }
+
+    public async Task<PostEditResponse> EditPostAsync(PostEditRequest postEditRequest)
+    {
+        //check if current user has post with postid
+        var user = await _userService.GetCurrentUserAsync();
+        var post = await _appDbContext.Posts.Where(post => post.Id == postEditRequest.PostId).ToListAsync();
+        var postToEdit = post.FirstOrDefault();
+        if (postToEdit == null)
+        {
+            return new PostEditResponse();
+        }
+        postToEdit.Title = postEditRequest.Title;
+        postToEdit.Content = postEditRequest.Content;
+        await _appDbContext.SaveChangesAsync();
+        return new PostEditResponse
+        {
+            PostId = postToEdit.Id,
+            Title = postToEdit.Title,
+            Content = postToEdit.Content
+        };
+    }
 }
