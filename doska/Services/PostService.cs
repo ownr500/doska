@@ -70,6 +70,7 @@ public class PostService : IPostService
         var posts = _appDbContext.Posts.Where(post => post.UserId == user.Id).ToList();
         return posts.Select(post => new UserPostDto
         {
+            PostId = post.Id,
             Title = post.Title,
             Content = post.Content,
             ExpirationDate = post.ExpirationDate
