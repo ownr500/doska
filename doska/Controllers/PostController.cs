@@ -1,8 +1,6 @@
-﻿using doska.Data.Entities;
-using doska.DTO;
+﻿using doska.DTO;
 using doska.Services;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace doska.Controllers;
@@ -10,12 +8,10 @@ namespace doska.Controllers;
 [Route("[controller]/[action]")]
 public class PostController : Controller
 {
-    private readonly UserManager<User> _userManager;
     private readonly IPostService _postService;
 
-    public PostController(UserManager<User> userManager, IPostService postService)
+    public PostController(IPostService postService)
     {
-        _userManager = userManager;
         _postService = postService;
     }
     
@@ -27,7 +23,7 @@ public class PostController : Controller
     }
 
     [HttpPost]
-    public Task<IEnumerable<PostDTO>> GetAllPosts()
+    public Task<List<PostDto>> GetAllPosts()
     {
         return _postService.GetAllPosts();
     }

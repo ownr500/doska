@@ -81,11 +81,10 @@ public class UserService : IUserService
         return Task.FromResult(usersList);
     }
 
-    private async Task<User> GetCurrentUserAsync()
+    public async Task<User> GetCurrentUserAsync()
     {
         var userClaim = _contextAccessor.HttpContext?.User;
         var userId = _userManager.GetUserId(userClaim);
-        var user = await _userManager.FindByIdAsync(userId);
-        return user;
+        return await _userManager.FindByIdAsync(userId);
     }
 }
