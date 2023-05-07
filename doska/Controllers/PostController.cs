@@ -19,19 +19,19 @@ public class PostController : Controller
     [Authorize]
     public Task<CreatePostResponse> CreatePost([FromBody]CreatePostRequest createPostRequest)
     {
-        return _postService.CreatePost(createPostRequest);
+        return _postService.CreatePostAsync(createPostRequest);
     }
 
     [HttpPost]
     public Task<List<PostDto>> GetAllPosts()
     {
-        return _postService.GetAllPosts();
+        return _postService.GetAllPostsAsync();
     }
 
     [HttpGet]
     [Authorize]
     public Task<List<UserPostDto>> GetUserPosts()
     {
-        return _postService.GetUserPosts();
+        return _postService.GetUserPostsAsync();
     }
 }

@@ -4,7 +4,8 @@ namespace doska.Services;
 
 public interface IPostService
 { 
-    Task<CreatePostResponse> CreatePost(CreatePostRequest createPostRequest);
-    Task<List<PostDto>> GetAllPosts();
-    Task<List<UserPostDto>> GetUserPosts();
+    Task<CreatePostResponse> CreatePostAsync(CreatePostRequest createPostRequest);
+    Task<List<PostDto>> GetAllPostsAsync();
+    Task<List<UserPostDto>> GetUserPostsAsync();
+    Task<PostEditResponse> EditPostAsync(PostEditRequest postEditRequest);
 }

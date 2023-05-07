@@ -15,7 +15,7 @@ public class PostService : IPostService
         _appDbContext = appDbContext;
         _userService = userService;
     }
-    public async Task<CreatePostResponse> CreatePost(CreatePostRequest createPostRequest)
+    public async Task<CreatePostResponse> CreatePostAsync(CreatePostRequest createPostRequest)
     {
         var user = await _userService.GetCurrentUserAsync();
         var currentDate = DateTime.Now;
@@ -46,7 +46,7 @@ public class PostService : IPostService
         };
     }
 
-    public async Task<List<PostDto>> GetAllPosts()
+    public async Task<List<PostDto>> GetAllPostsAsync()
     {
         return await _appDbContext.Posts
             .Select(post =>
@@ -63,11 +63,10 @@ public class PostService : IPostService
             .ToListAsync();
     }
 
-    public async Task<List<UserPostDto>> GetUserPosts()
+    public async Task<List<UserPostDto>> GetUserPostsAsync()
     {
-        //check if authorized user has posts
         var user = await _userService.GetCurrentUserAsync();
-        var posts = _appDbContext.Posts.Where(post => post.UserId == user.Id).ToList();
+        var posts = _appDbContext.Posts.Where(post => post.UserId == user.Id);
         return posts.Select(post => new UserPostDto
         {
             PostId = post.Id,
