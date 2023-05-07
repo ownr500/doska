@@ -27,4 +27,11 @@ public class PostController : Controller
     {
         return _postService.GetAllPosts();
     }
+
+    [HttpGet]
+    [Authorize]
+    public Task<List<UserPostDto>> GetUserPosts()
+    {
+        return _postService.GetUserPosts();
+    }
 }

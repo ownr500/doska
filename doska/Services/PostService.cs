@@ -62,4 +62,17 @@ public class PostService : IPostService
             .OrderBy(post => post.ExpirationDate)
             .ToListAsync();
     }
+
+    public async Task<List<UserPostDto>> GetUserPosts()
+    {
+        //check if authorized user has posts
+        var user = await _userService.GetCurrentUserAsync();
+        var posts = _appDbContext.Posts.Where(post => post.UserId == user.Id).ToList();
+        return posts.Select(post => new UserPostDto
+        {
+            Title = post.Title,
+            Content = post.Content,
+            ExpirationDate = post.ExpirationDate
+        }).ToList();
+    }
 }
