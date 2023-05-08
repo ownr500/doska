@@ -10,6 +10,4 @@ public interface IPostService
     Task<List<UserPostDto>> GetUserPostsAsync();
     Task<PostEditResponse> EditPostAsync(PostEditRequest postEditRequest);
     Task<ActionResult> DeletePostAsync(DeletePostRequest deletePostRequest);
-    Task<List<PostAdminDto>> GetAllPostsAdminAsync();
-    Task<ActionResult> PostDeleteAsync(DeletePostRequest deletePostRequest);
 }

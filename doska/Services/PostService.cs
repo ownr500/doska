@@ -110,29 +110,4 @@ public class PostService : IPostService
         await _appDbContext.SaveChangesAsync();
         return new OkResult();
     }
-
-    public async Task<List<PostAdminDto>> GetAllPostsAdminAsync()
-    {
-        return await _appDbContext.Posts.Select(post => new PostAdminDto
-        {
-            Id = post.Id,
-            Title = post.Title,
-            Content = post.Content,
-            CreationDate = post.CreationDate,
-            ExpirationDate = post.ExpirationDate,
-            UserId = post.UserId
-        }).ToListAsync();
-    }
-
-    public async Task<ActionResult> PostDeleteAsync(DeletePostRequest deletePostRequest)
-    {
-        var post =  await _appDbContext.Posts.FindAsync(deletePostRequest.PostId);
-        if (post != null)
-        {
-            _appDbContext.Posts.Remove(post);
-            await _appDbContext.SaveChangesAsync();
-            return new OkResult();
-        }
-        return new BadRequestResult();
-    }
 }
