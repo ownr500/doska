@@ -91,6 +91,7 @@ builder.Services.AddSwaggerGen(options =>
             new List<string>()
         }
     });
+    options.EnableAnnotations();
 });
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<ITokenService, TokenService>();
