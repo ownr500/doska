@@ -1,6 +1,7 @@
 using doska.Data;
 using doska.Data.Entities;
 using doska.DTO;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -10,11 +11,13 @@ public class PostService : IPostService
 {
     private readonly AppDbContext _appDbContext;
     private readonly IUserService _userService;
+    private readonly UserManager<User> _userManager;
 
-    public PostService(AppDbContext appDbContext, IUserService userService)
+    public PostService(AppDbContext appDbContext, IUserService userService, UserManager<User>  userManager)
     {
         _appDbContext = appDbContext;
         _userService = userService;
+        _userManager = userManager;
     }
     public async Task<CreatePostResponse> CreatePostAsync(CreatePostRequest createPostRequest)
     {
@@ -80,20 +83,19 @@ public class PostService : IPostService
     public async Task<PostEditResponse> EditPostAsync(PostEditRequest postEditRequest)
     {
         var user = await _userService.GetCurrentUserAsync();
-        var post = await _appDbContext.Posts.Where(post => post.Id == postEditRequest.PostId).ToListAsync();
-        var postToEdit = post.FirstOrDefault();
-        if (postToEdit == null)
+        var post = await _appDbContext.Posts.Where(post => post.Id == postEditRequest.PostId).FirstOrDefaultAsync();
+        if (post == null)
         {
             return new PostEditResponse();
         }
-        postToEdit.Title = postEditRequest.Title;
-        postToEdit.Content = postEditRequest.Content;
+        post.Title = postEditRequest.Title;
+        post.Content = postEditRequest.Content;
         await _appDbContext.SaveChangesAsync();
         return new PostEditResponse
         {
-            PostId = postToEdit.Id,
-            Title = postToEdit.Title,
-            Content = postToEdit.Content
+            PostId = post.Id,
+            Title = post.Title,
+            Content = post.Content
         };
     }
 
@@ -101,13 +103,18 @@ public class PostService : IPostService
     {
         var user = await _userService.GetCurrentUserAsync();
         var post = await _appDbContext.Posts.FindAsync(deletePostRequest.PostId);
-        if (post == null || user.Id != post.UserId)
-        {
-            return new BadRequestResult();
-        }
+        await ThrowIfAuthorNorAdminAsync(post, user);
 
-        _appDbContext.Posts.Remove(post);
+        _appDbContext.Posts.Remove(post!);
         await _appDbContext.SaveChangesAsync();
         return new OkResult();
+    }
+
+    private async Task ThrowIfAuthorNorAdminAsync(Post? post, User user)
+    {
+        if (post == null || user.Id != post?.UserId || ! await _userManager.IsInRoleAsync(user, "Admin"))
+        {
+            throw new Exception();
+        }
     }
 }
