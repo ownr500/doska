@@ -25,6 +25,7 @@ public class PostService : IPostService
         var currentDate = DateTime.Now;
         var newPost = new Post
         {
+            Id = new Guid(),
             Title = createPostRequest.Title,
             Content = createPostRequest.Content,
             CreationDate = currentDate,
@@ -41,9 +42,10 @@ public class PostService : IPostService
             Console.WriteLine(e);
             throw;
         }
-
+        
         return new CreatePostResponse
         {
+            Id = newPost.Id,
             Title = newPost.Title,
             Content = newPost.Content,
             ExpirationDate = newPost.ExpirationDate

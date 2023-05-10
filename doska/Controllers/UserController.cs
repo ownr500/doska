@@ -69,4 +69,11 @@ public class UserController : Controller
     {
         return _userService.ActivateAllAsync();
     }
+    
+    [HttpGet]
+    [Authorize(Roles = "Admin")]
+    public Task<List<UserWithPosts>> GetUsersWithPosts()
+    {
+        return _userService.GetUsersWithPostsAsync();
+    }
 }

@@ -14,4 +14,5 @@ public interface IUserService
     Task<User> GetCurrentUserAsync();
     Task<DeactivateUserResponse> DeactivateUserAsync(DeactivateUserRequest deactivateUserRequest);
     Task<ActionResult> ActivateAllAsync();
+    Task<List<UserWithPosts>> GetUsersWithPostsAsync();
 }

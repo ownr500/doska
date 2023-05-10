@@ -1,6 +1,7 @@
 ﻿using doska.Data;
 using doska.Data.Entities;
 using doska.DTO;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -24,6 +25,7 @@ public class UserService : IUserService
     {
         var user = new User
         {
+            IsActive = true,
             FirstName = registerRequest.FirstName,
             LastName = registerRequest.LastName,
             Email = registerRequest.Email,
@@ -122,5 +124,25 @@ public class UserService : IUserService
         }
         await _appDbContext.SaveChangesAsync();
         return new OkResult();
+    }
+
+    public async Task<List<UserWithPosts>> GetUsersWithPostsAsync()
+    {
+        var usersWithPosts = new List<UserWithPosts>();
+        var users = await _userManager.Users.ToListAsync();
+        var posts = await _appDbContext.Posts.ToListAsync();
+        foreach (var user in users)
+        {
+            var titles = posts.Where(post => post.UserId == user.Id).ToList();
+            usersWithPosts.Add(new UserWithPosts
+            {
+                UserId = user.Id,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Titles = titles.Select(title => title.Title).ToList()
+            });
+        }
+
+        return usersWithPosts;
     }
 }
