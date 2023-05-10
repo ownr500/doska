@@ -22,7 +22,7 @@ public class PostController : Controller
         return _postService.CreatePostAsync(createPostRequest);
     }
 
-    [HttpPost]
+    [HttpGet]
     public Task<List<PostDto>> GetAllPosts()
     {
         return _postService.GetAllPostsAsync();

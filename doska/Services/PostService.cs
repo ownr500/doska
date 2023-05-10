@@ -56,6 +56,7 @@ public class PostService : IPostService
             .Select(post =>
                 new PostDto
                 {
+                    Id = post.Id,
                     Title = post.Title,
                     Content = post.Content,
                     ExpirationDate = post.ExpirationDate,
