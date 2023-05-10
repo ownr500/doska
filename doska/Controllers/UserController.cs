@@ -55,4 +55,18 @@ public class UserController : Controller
     {
         return _userService.GetAllUsers();
     }
+
+    [HttpPost]
+    [Authorize(Roles = "Admin")]
+    public Task<DeactivateUserResponse> DeactivateUser(DeactivateUserRequest deactivateUserRequest)
+    {
+        return _userService.DeactivateUserAsync(deactivateUserRequest);
+    }
+
+    [HttpGet]
+    [Authorize(Roles = "Admin")]
+    public Task<ActionResult> ActivateAllUsers()
+    {
+        return _userService.ActivateAllAsync();
+    }
 }

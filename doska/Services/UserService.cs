@@ -1,7 +1,9 @@
-﻿using doska.Data.Entities;
+﻿using doska.Data;
+using doska.Data.Entities;
 using doska.DTO;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace doska.Services;
 
@@ -9,11 +11,13 @@ public class UserService : IUserService
 {
     private readonly UserManager<User> _userManager;
     private readonly IHttpContextAccessor _contextAccessor;
+    private readonly AppDbContext _appDbContext;
 
-    public UserService(UserManager<User> userManager, IHttpContextAccessor contextAccessor)
+    public UserService(UserManager<User> userManager, IHttpContextAccessor contextAccessor, AppDbContext appDbContext)
     {
         _userManager = userManager;
         _contextAccessor = contextAccessor;
+        _appDbContext = appDbContext;
     }
 
     public async Task<RegisterResponse> RegisterAsync(RegisterRequest registerRequest)
@@ -24,7 +28,6 @@ public class UserService : IUserService
             LastName = registerRequest.LastName,
             Email = registerRequest.Email,
             UserName = registerRequest.Email,
-            CreationDate = DateTime.Now
         };
         var result = await _userManager.CreateAsync(user, registerRequest.Password);
         var response = new RegisterResponse
@@ -86,5 +89,38 @@ public class UserService : IUserService
         var userClaim = _contextAccessor.HttpContext?.User;
         var userId = _userManager.GetUserId(userClaim);
         return await _userManager.FindByIdAsync(userId);
+    }
+
+    public async Task<DeactivateUserResponse> DeactivateUserAsync(DeactivateUserRequest deactivateUserRequest)
+    {
+        var user = await _userManager.FindByIdAsync(deactivateUserRequest.Id.ToString());
+        if (user.IsActive)
+        {
+            user.IsActive = false;
+            await _userManager.UpdateAsync(user);
+            return new DeactivateUserResponse
+            {
+                Id = user.Id,
+                IsActive = user.IsActive
+            };
+        }
+
+        return new DeactivateUserResponse
+        {
+            Id = user.Id,
+            IsActive = user.IsActive
+        };
+    }
+
+    public async Task<ActionResult> ActivateAllAsync()
+    {
+        var users = _appDbContext.Users.Where(user => !user.IsActive);
+        var usersTemp = await users.ToListAsync();
+        foreach (var user in usersTemp)
+        {
+            user.IsActive = true;
+        }
+        await _appDbContext.SaveChangesAsync();
+        return new OkResult();
     }
 }

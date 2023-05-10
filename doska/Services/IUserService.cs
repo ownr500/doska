@@ -12,4 +12,6 @@ public interface IUserService
     Task<UserInfoResponse> GetUserInfoAsync(UserInfoRequest userInfoRequest);
     Task<List<UserListDTO>> GetAllUsers();
     Task<User> GetCurrentUserAsync();
+    Task<DeactivateUserResponse> DeactivateUserAsync(DeactivateUserRequest deactivateUserRequest);
+    Task<ActionResult> ActivateAllAsync();
 }
