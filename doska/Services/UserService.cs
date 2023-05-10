@@ -128,20 +128,14 @@ public class UserService : IUserService
 
     public async Task<List<UserWithPosts>> GetUsersWithPostsAsync()
     {
-        var usersWithPosts = new List<UserWithPosts>();
         var users = await _userManager.Users.ToListAsync();
-        var posts = await _appDbContext.Posts.ToListAsync();
-        foreach (var user in users)
+        var usersWithPosts = users.Select(user => new UserWithPosts
         {
-            var titles = posts.Where(post => post.UserId == user.Id).ToList();
-            usersWithPosts.Add(new UserWithPosts
-            {
-                UserId = user.Id,
-                FirstName = user.FirstName,
-                LastName = user.LastName,
-                Titles = titles.Select(title => title.Title).ToList()
-            });
-        }
+            UserId = user.Id,
+            FirstName = user.FirstName,
+            LastName = user.LastName,
+            Titles = user.Posts.Select(post => post.Title).ToList()
+        }).ToList();
 
         return usersWithPosts;
     }

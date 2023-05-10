@@ -25,7 +25,6 @@ public class PostService : IPostService
         var currentDate = DateTime.Now;
         var newPost = new Post
         {
-            Id = new Guid(),
             Title = createPostRequest.Title,
             Content = createPostRequest.Content,
             CreationDate = currentDate,
