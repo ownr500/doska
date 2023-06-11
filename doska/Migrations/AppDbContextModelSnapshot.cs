@@ -22,6 +22,21 @@ namespace doska.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
+            modelBuilder.Entity("doska.Data.Entities.Picture", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<byte[]>("PictureBytes")
+                        .IsRequired()
+                        .HasColumnType("varbinary(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Pictures");
+                });
+
             modelBuilder.Entity("doska.Data.Entities.Post", b =>
                 {
                     b.Property<Guid>("Id")
@@ -145,6 +160,9 @@ namespace doska.Migrations
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("bit");
 
+                    b.Property<Guid?>("PictureId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
 
@@ -164,6 +182,8 @@ namespace doska.Migrations
                         .IsUnique()
                         .HasDatabaseName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
+
+                    b.HasIndex("PictureId");
 
                     b.ToTable("AspNetUsers", (string)null);
                 });
@@ -273,6 +293,21 @@ namespace doska.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("PicturePost", b =>
+                {
+                    b.Property<Guid>("PicturesId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("PostsId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("PicturesId", "PostsId");
+
+                    b.HasIndex("PostsId");
+
+                    b.ToTable("PicturePost");
+                });
+
             modelBuilder.Entity("doska.Data.Entities.Post", b =>
                 {
                     b.HasOne("doska.Data.Entities.User", "User")
@@ -281,6 +316,17 @@ namespace doska.Migrations
                         .OnDelete(DeleteBehavior.SetNull);
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("doska.Data.Entities.User", b =>
+                {
+                    b.HasOne("doska.Data.Entities.Picture", "Picture")
+                        .WithMany()
+                        .HasForeignKey("PictureId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Picture");
                 });
 
             modelBuilder.Entity("doska.Data.Entities.UserRole", b =>
@@ -334,6 +380,21 @@ namespace doska.Migrations
                     b.HasOne("doska.Data.Entities.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("PicturePost", b =>
+                {
+                    b.HasOne("doska.Data.Entities.Picture", null)
+                        .WithMany()
+                        .HasForeignKey("PicturesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("doska.Data.Entities.Post", null)
+                        .WithMany()
+                        .HasForeignKey("PostsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

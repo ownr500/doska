@@ -16,6 +16,9 @@ public class PostMap : IEntityTypeConfiguration<Post>
             .WithMany(user => user.Posts)
             .HasForeignKey(post => post.UserId)
             .OnDelete(DeleteBehavior.SetNull);
+        builder.HasMany<Picture>(post => post.Pictures)
+            .WithMany(picture => picture.Posts);
+
         builder.Property(post => post.UserId)
             .IsRequired(false);
     }
