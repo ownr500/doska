@@ -5,6 +5,7 @@ using doska.Data.Entities;
 using doska.Options;
 using doska.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -98,6 +99,11 @@ builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<ISignInService, SignInService>();
 builder.Services.AddScoped<IPostService, PostService>();
 builder.Services.AddScoped<JwtSecurityTokenHandler>();
+builder.Services.Configure<FormOptions>(options =>
+{
+    options.MultipartBodyLengthLimit = 250 * 1024;
+    options.ValueCountLimit = 5;
+});
 builder.Services.Configure<JWTOptions>(config.GetSection("JWT"));
 
 var app = builder.Build();

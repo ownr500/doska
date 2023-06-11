@@ -23,6 +23,14 @@ public class UserService : IUserService
 
     public async Task<RegisterResponse> RegisterAsync(RegisterRequest registerRequest)
     {
+        using var memoryStream = new MemoryStream();
+        if (registerRequest.Picture != null) await registerRequest.Picture.CopyToAsync(memoryStream);
+        var picture = new Picture()
+        {
+            Id = Guid.NewGuid(),
+            PictureBytes = memoryStream.ToArray()
+        };
+        
         var user = new User
         {
             IsActive = true,
@@ -30,7 +38,9 @@ public class UserService : IUserService
             LastName = registerRequest.LastName,
             Email = registerRequest.Email,
             UserName = registerRequest.Email,
+            PictureId = picture.Id
         };
+        _appDbContext.Pictures.Add(picture);
         var result = await _userManager.CreateAsync(user, registerRequest.Password);
         var response = new RegisterResponse
         {
