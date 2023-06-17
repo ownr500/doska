@@ -101,7 +101,7 @@ builder.Services.AddScoped<IPostService, PostService>();
 builder.Services.AddScoped<JwtSecurityTokenHandler>();
 builder.Services.Configure<FormOptions>(options =>
 {
-    options.MultipartBodyLengthLimit = 250 * 1024;
+    options.MultipartBodyLengthLimit = 750 * 1024;
     options.ValueCountLimit = 5;
 });
 builder.Services.Configure<JWTOptions>(config.GetSection("JWT"));

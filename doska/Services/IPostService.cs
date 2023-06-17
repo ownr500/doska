@@ -1,3 +1,4 @@
+using doska.Data.Entities;
 using doska.DTO;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,4 +11,5 @@ public interface IPostService
     Task<List<UserPostDto>> GetUserPostsAsync();
     Task<PostEditResponse> EditPostAsync(PostEditRequest postEditRequest);
     Task<ActionResult> DeletePostAsync(DeletePostRequest deletePostRequest);
+    Task<IActionResult> AddPicturesToPostRequestAsync(ICollection<IFormFile> addPicturesToPostRequest, Guid postId);
 }

@@ -78,7 +78,8 @@ public class PostService : IPostService
             PostId = post.Id,
             Title = post.Title,
             Content = post.Content,
-            ExpirationDate = post.ExpirationDate
+            ExpirationDate = post.ExpirationDate,
+            Pictures = post.Pictures
         }).ToList();
     }
 
@@ -109,6 +110,45 @@ public class PostService : IPostService
 
         _appDbContext.Posts.Remove(post!);
         await _appDbContext.SaveChangesAsync();
+        return new OkResult();
+    }
+
+    public async Task<IActionResult> AddPicturesToPostRequestAsync(ICollection<IFormFile> addPicturesToPostRequest, Guid postId)
+    {
+        var post = await _appDbContext.Posts.FirstOrDefaultAsync(post => post.Id == postId);
+        var user = await _userService.GetCurrentUserAsync();
+        if (post == null) return new BadRequestObjectResult("no post found with given id");
+        if (post.UserId != user.Id) return new BadRequestObjectResult("wrong user");
+        var pictures = addPicturesToPostRequest.Select(item =>
+        {
+            using var memoryStream = new MemoryStream();
+            item.CopyTo(memoryStream);
+            var pictureBytes = memoryStream.ToArray();
+            var newPicture = new Picture()
+            {
+                Id = Guid.NewGuid(),
+                PictureBytes = pictureBytes
+            };
+            newPicture.Posts.Add(post);
+            return newPicture;
+        });
+        _appDbContext.Pictures.AddRange(pictures);
+        await _appDbContext.SaveChangesAsync();
+        
+        // foreach (var picture in addPicturesToPostRequest)
+        // {
+        //     using var memoryStream = new MemoryStream();
+        //     await picture.CopyToAsync(memoryStream);
+        //     var pictureBytes = memoryStream.ToArray();
+        //     var newPicture = new Picture()
+        //     {
+        //         Id = Guid.NewGuid(),
+        //         PictureBytes = pictureBytes
+        //     };
+        //     newPicture.Posts.Add(post);
+        //     _appDbContext.Pictures.Add(newPicture);
+        // }
+        
         return new OkResult();
     }
 
