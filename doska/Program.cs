@@ -105,6 +105,7 @@ builder.Services.Configure<FormOptions>(options =>
     options.ValueCountLimit = 5;
 });
 builder.Services.Configure<JWTOptions>(config.GetSection("JWT"));
+builder.Services.Configure<PostOptions>(config.GetSection(nameof(PostOptions)));
 
 var app = builder.Build();
 

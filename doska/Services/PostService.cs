@@ -1,23 +1,27 @@
 using doska.Data;
 using doska.Data.Entities;
 using doska.DTO;
+using doska.Options;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 
 namespace doska.Services;
 
-public class PostService : IPostService
+internal sealed class PostService : IPostService
 {
     private readonly AppDbContext _appDbContext;
     private readonly IUserService _userService;
     private readonly UserManager<User> _userManager;
+    private readonly PostOptions _options;
 
-    public PostService(AppDbContext appDbContext, IUserService userService, UserManager<User>  userManager)
+    public PostService(AppDbContext appDbContext, IUserService userService, UserManager<User>  userManager, IOptions<PostOptions> options)
     {
         _appDbContext = appDbContext;
         _userService = userService;
         _userManager = userManager;
+        _options = options.Value;
     }
     public async Task<CreatePostResponse> CreatePostAsync(CreatePostRequest createPostRequest)
     {
@@ -90,16 +94,54 @@ public class PostService : IPostService
 
     public async Task<IActionResult> EditPostAsync(PostEditRequest postEditRequest)
     {
+        //user post validation
         var user = await _userService.GetCurrentUserAsync();
-        var post = await _appDbContext.Posts.Where(post => post.Id == postEditRequest.PostId).FirstOrDefaultAsync();
+        var post = await _appDbContext.Posts.FindAsync(postEditRequest.PostId);
         if (post == null)
         {
             return new BadRequestObjectResult("no post found");
         }
+        
+        //picture remove
+        var ids = postEditRequest.IdsToRemove;
+
+        foreach (var id in ids)
+        {
+            var picture = await _appDbContext.Pictures.FindAsync(id);
+            if (picture == null)
+            {
+                return new BadRequestObjectResult("wrong picture ids");
+            }
+
+            _appDbContext.Pictures.Remove(picture);
+        }
+
+        //upload new pictures
+        
+        if (postEditRequest.Pictures.Count + post.Pictures.Count > _options.PictureOptions.MaxCount)
+        {
+            return new BadRequestObjectResult("number of uploaded pics exceeded");
+        }
+
+        var picturesToUpload = postEditRequest.Pictures.Select(item =>
+        {
+            using var memoryStream = new MemoryStream();
+            item.CopyTo(memoryStream);
+            var pictureBytes = memoryStream.ToArray();
+            var newPicture = new Picture
+            {
+                Id = Guid.NewGuid(),
+                PictureBytes = pictureBytes
+            };
+            post.Pictures.Add(newPicture);
+            return newPicture;
+        });
+
         post.Title = postEditRequest.Title;
         post.Content = postEditRequest.Content;
+        await _appDbContext.Pictures.AddRangeAsync(picturesToUpload);
         await _appDbContext.SaveChangesAsync();
-        
+        return new OkResult();
     }
 
     public async Task<ActionResult> DeletePostAsync(DeletePostRequest deletePostRequest)
@@ -124,31 +166,16 @@ public class PostService : IPostService
             using var memoryStream = new MemoryStream();
             item.CopyTo(memoryStream);
             var pictureBytes = memoryStream.ToArray();
-            var newPicture = new Picture()
+            var newPicture = new Picture
             {
                 Id = Guid.NewGuid(),
                 PictureBytes = pictureBytes
             };
-            newPicture.Posts.Add(post);
+            post.Pictures.Add(newPicture);
             return newPicture;
         });
         _appDbContext.Pictures.AddRange(pictures);
         await _appDbContext.SaveChangesAsync();
-        
-        // foreach (var picture in addPicturesToPostRequest)
-        // {
-        //     using var memoryStream = new MemoryStream();
-        //     await picture.CopyToAsync(memoryStream);
-        //     var pictureBytes = memoryStream.ToArray();
-        //     var newPicture = new Picture()
-        //     {
-        //         Id = Guid.NewGuid(),
-        //         PictureBytes = pictureBytes
-        //     };
-        //     newPicture.Posts.Add(post);
-        //     _appDbContext.Pictures.Add(newPicture);
-        // }
-        
         return new OkResult();
     }
 

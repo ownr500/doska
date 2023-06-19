@@ -7,6 +7,6 @@ public class PostEditRequest
     public Guid PostId { get; set; } = default!;
     public string Title { get; set; } = default!;
     public string Content { get; set; } = default!;
-    public ReadOnlyCollection<Guid> IdsToRemove { get; set; }
-    public ICollection<IFormFile> Pictures { get; set; }
+    public ReadOnlyCollection<Guid>? IdsToRemove { get; set; } = default!;
+    public ICollection<IFormFile>? Pictures { get; set; } = default!;
 }

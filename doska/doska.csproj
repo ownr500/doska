@@ -27,6 +27,7 @@
 
     <ItemGroup>
       <Folder Include="Endpoints\User" />
+      <Folder Include="Validators\" />
     </ItemGroup>
 
 </Project>
