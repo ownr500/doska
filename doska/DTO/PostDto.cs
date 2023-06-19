@@ -1,4 +1,6 @@
-﻿namespace doska.DTO;
+﻿using doska.Data.Entities;
+
+namespace doska.DTO;
 
 public class PostDto
 {
@@ -8,4 +10,5 @@ public class PostDto
     public DateTime ExpirationDate { get; set; }
     public string FirstName { get; set; } = default!;
     public Guid? UserId { get; set; }
+    public List<byte[]>? Pictures { get; set; } = default!;
 }

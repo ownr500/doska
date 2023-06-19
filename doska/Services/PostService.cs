@@ -62,7 +62,8 @@ public class PostService : IPostService
                     Content = post.Content,
                     ExpirationDate = post.ExpirationDate,
                     FirstName = post.User.FirstName,
-                    UserId = post.UserId
+                    UserId = post.UserId,
+                    Pictures = post.Pictures.Select(item => item.PictureBytes).ToList()
                 }
             )
             .OrderBy(post => post.ExpirationDate)
@@ -79,7 +80,11 @@ public class PostService : IPostService
             Title = post.Title,
             Content = post.Content,
             ExpirationDate = post.ExpirationDate,
-            Pictures = post.Pictures
+            PictureDtos = post.Pictures.Select(item => new PictureDTO()
+            {
+                Id = item.Id,
+                PictureBytes = item.PictureBytes
+            }).ToList()
         }).ToList();
     }
 
