@@ -51,7 +51,7 @@ public class PostController : ControllerBase
 
     [HttpPost]
     [Authorize]
-    public Task<PostEditResponse> EditPost(PostEditRequest postEditRequest)
+    public Task<IActionResult> EditPost(PostEditRequest postEditRequest)
     {
         return _postService.EditPostAsync(postEditRequest);
     }

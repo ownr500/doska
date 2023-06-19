@@ -88,23 +88,18 @@ public class PostService : IPostService
         }).ToList();
     }
 
-    public async Task<PostEditResponse> EditPostAsync(PostEditRequest postEditRequest)
+    public async Task<IActionResult> EditPostAsync(PostEditRequest postEditRequest)
     {
         var user = await _userService.GetCurrentUserAsync();
         var post = await _appDbContext.Posts.Where(post => post.Id == postEditRequest.PostId).FirstOrDefaultAsync();
         if (post == null)
         {
-            return new PostEditResponse();
+            return new BadRequestObjectResult("no post found");
         }
         post.Title = postEditRequest.Title;
         post.Content = postEditRequest.Content;
         await _appDbContext.SaveChangesAsync();
-        return new PostEditResponse
-        {
-            PostId = post.Id,
-            Title = post.Title,
-            Content = post.Content
-        };
+        
     }
 
     public async Task<ActionResult> DeletePostAsync(DeletePostRequest deletePostRequest)
