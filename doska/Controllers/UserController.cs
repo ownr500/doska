@@ -48,7 +48,14 @@ public class UserController : Controller
     {
         return _userService.GetUserInfoAsync(userInfoRequest);
     }
-    
+
+    [HttpPost]
+    [Authorize]
+    public Task<UserInfoByIdResponse> GetUserInfoById([FromBody] UserInfoByIdRequest infoByIdRequest)
+    {
+        return _userService.GetUserInfoByIdAsync(infoByIdRequest);
+    } 
+
     [HttpGet]
     [Authorize(Roles = "Admin")]
     public Task<List<UserListDTO>> GetUsers()

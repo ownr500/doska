@@ -81,6 +81,18 @@ public class UserService : IUserService
         };
     }
 
+
+    public async Task<UserInfoByIdResponse> GetUserInfoByIdAsync(UserInfoByIdRequest infoByIdRequest)
+    {
+        var user = await _userManager.FindByIdAsync(infoByIdRequest.Id.ToString());
+        return new UserInfoByIdResponse
+        {
+            Id = user.Id,
+            FirstName = user.FirstName,
+            RegistrationDate = user.CreationDate,
+            Posts = user.Posts
+        };
+    }
     public Task<List<UserListDTO>> GetAllUsers()
     {
         IQueryable<User> users = _userManager.Users;
@@ -148,5 +160,10 @@ public class UserService : IUserService
         }).ToList();
 
         return usersWithPosts;
+    }
+
+    public async Task<bool> UserExists(Guid userId, CancellationToken ct)
+    {
+        return await _userManager.FindByIdAsync(userId.ToString()) != null;
     }
 }
