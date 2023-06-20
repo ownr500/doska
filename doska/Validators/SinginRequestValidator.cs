@@ -3,7 +3,7 @@ using FluentValidation;
 
 namespace doska.Validators;
 
-public class SinginRequestValidator : AbstractValidator<SigninRequest>
+internal sealed class SinginRequestValidator : AbstractValidator<SigninRequest>
 {
     public SinginRequestValidator()
     {
