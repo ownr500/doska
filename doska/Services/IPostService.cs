@@ -10,6 +10,7 @@ public interface IPostService
     Task<List<PostDto>> GetAllPostsAsync();
     Task<List<UserPostDto>> GetUserPostsAsync();
     Task<IActionResult> EditPostAsync(PostEditRequest postEditRequest);
-    Task<ActionResult> DeletePostAsync(DeletePostRequest deletePostRequest);
+    Task<ActionResult> DeletePostAsync(DeletePostRequest deletePostRequest, CancellationToken ct);
     Task<IActionResult> AddPicturesToPostRequestAsync(ICollection<IFormFile> addPicturesToPostRequest, Guid postId);
+    Task<bool> PostExists(Guid postId, CancellationToken cancellationToken);
 }

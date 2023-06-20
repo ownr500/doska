@@ -9,6 +9,8 @@
     <ItemGroup>
         <PackageReference Include="Ardalis.ApiEndpoints" Version="4.0.1" />
         <PackageReference Include="Bogus" Version="34.0.2" />
+        <PackageReference Include="FluentValidation.AspNetCore" Version="10.4.0" />
+        <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="10.4.0" />
         <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.16" />
         <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="6.0.16" />
         <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.16">
@@ -27,7 +29,6 @@
 
     <ItemGroup>
       <Folder Include="Endpoints\User" />
-      <Folder Include="Validators\" />
     </ItemGroup>
 
 </Project>

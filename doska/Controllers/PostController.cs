@@ -58,22 +58,8 @@ public class PostController : ControllerBase
 
     [HttpPost]
     [Authorize]
-    public Task<ActionResult> DeletePost(DeletePostRequest deletePostRequest)
+    public Task<ActionResult> DeletePost(DeletePostRequest deletePostRequest, CancellationToken ct)
     {
-        return _postService.DeletePostAsync(deletePostRequest);
+        return _postService.DeletePostAsync(deletePostRequest, ct);
     }
-    
-    
-    // [HttpGet]
-    // public Task<IActionResult> AddPictures()
-    // {
-    //     // IActionResult status = new StatusCodeResult(285);
-    //     // return Task.FromResult(status);
-    //     return Task.FromResult(Test());
-    // }
-    //
-    // private Task<IActionResult> Test()
-    // {
-    //     return Ok();
-    // }
 }

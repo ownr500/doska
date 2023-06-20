@@ -144,14 +144,13 @@ internal sealed class PostService : IPostService
         return new OkResult();
     }
 
-    public async Task<ActionResult> DeletePostAsync(DeletePostRequest deletePostRequest)
+    public async Task<ActionResult> DeletePostAsync(DeletePostRequest deletePostRequest,
+        CancellationToken ct)
     {
-        var user = await _userService.GetCurrentUserAsync();
-        var post = await _appDbContext.Posts.FindAsync(deletePostRequest.PostId);
-        await ThrowIfAuthorNorAdminAsync(post, user);
+        var post = await _appDbContext.Posts.FindAsync(new object?[] { deletePostRequest.PostId }, cancellationToken: ct);
 
         _appDbContext.Posts.Remove(post!);
-        await _appDbContext.SaveChangesAsync();
+        await _appDbContext.SaveChangesAsync(ct);
         return new OkResult();
     }
 
@@ -179,11 +178,8 @@ internal sealed class PostService : IPostService
         return new OkResult();
     }
 
-    private async Task ThrowIfAuthorNorAdminAsync(Post? post, User user)
+    public async Task<bool> PostExists(Guid postId, CancellationToken cancellationToken)
     {
-        if (post == null || user.Id != post?.UserId || ! await _userManager.IsInRoleAsync(user, "Admin"))
-        {
-            throw new Exception();
-        }
+        return await _appDbContext.Posts.FindAsync(postId) != null;
     }
 }

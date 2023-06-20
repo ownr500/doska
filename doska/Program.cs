@@ -4,6 +4,9 @@ using doska.Data;
 using doska.Data.Entities;
 using doska.Options;
 using doska.Services;
+using doska.Validators;
+using FluentValidation;
+using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Identity;
@@ -53,9 +56,10 @@ builder.Services.AddAuthentication(opt =>
 
 
 
-
+builder.Services.AddValidatorsFromAssemblyContaining<CreatePostRequestValidator>(includeInternalTypes: true);
 builder.Services.AddAuthorization();
-builder.Services.AddControllers();
+builder.Services.AddControllers()
+    .AddFluentValidation();
 builder.Services.AddDbContext<AppDbContext>(options => options
         .UseSqlServer(connectionString)
     .UseLazyLoadingProxies());
@@ -99,6 +103,7 @@ builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<ISignInService, SignInService>();
 builder.Services.AddScoped<IPostService, PostService>();
 builder.Services.AddScoped<JwtSecurityTokenHandler>();
+builder.Services.AddScoped<IPermissionsService, PermissionsService>();
 builder.Services.Configure<FormOptions>(options =>
 {
     options.MultipartBodyLengthLimit = 750 * 1024;
@@ -122,16 +127,5 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
-// app.Map("/login/{username}", (string username) =>
-// {
-//     var claims = new List<Claim> { new Claim(ClaimTypes.Name, username) };
-//     var jwt = new JwtSecurityToken(
-//         issuer: AuthOptions.ISSUER,
-//         audience: AuthOptions.AUDIENCE,
-//         claims: claims,
-//         expires: DateTime.UtcNow.Add(TimeSpan.FromMinutes(15)),
-//         signingCredentials: )
-// });
-
 
 app.Run();
