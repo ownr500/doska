@@ -8,6 +8,7 @@ public class UserMap : IEntityTypeConfiguration<User>
 {
     public void Configure(EntityTypeBuilder<User> builder)
     {
+        builder.HasKey(user => user.Id);
         builder.Property(user => user.PictureId).IsRequired(false).HasDefaultValue(null);
         builder.HasOne<Picture>(user => user.Picture)
             .WithMany()
