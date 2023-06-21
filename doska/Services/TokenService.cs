@@ -8,7 +8,7 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace doska.Services;
 
-public class TokenService : ITokenService
+internal sealed class TokenService : ITokenService
 {
     private readonly JwtSecurityTokenHandler _jwtSecurityTokenHandler;
     private readonly JwtOptions _options;

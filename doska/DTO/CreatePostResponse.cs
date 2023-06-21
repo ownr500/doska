@@ -1,6 +1,6 @@
 namespace doska.DTO;
 
-public class CreatePostResponse
+internal sealed class CreatePostResponse
 {
     public Guid Id { get; set; }
     public string Title { get; set; } = default!;

@@ -1,6 +1,6 @@
 ﻿namespace doska.DTO;
 
-public class UserInfoResponse
+internal sealed class UserInfoResponse
 {
     public string FirstName { get; set; } = default!;
     public string LastName { get; set; } = default!;

@@ -1,6 +1,6 @@
 ﻿namespace doska.Helper;
 
-public class JwtTokenResponse
+internal sealed class JwtTokenResponse
 {
     public string? Token { get; set; }
 }

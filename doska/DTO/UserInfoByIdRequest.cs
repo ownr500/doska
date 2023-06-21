@@ -1,6 +1,6 @@
 ﻿namespace doska.DTO;
 
-public class UserInfoByIdRequest
+internal sealed class UserInfoByIdRequest
 {
     public Guid Id { get; set; }
 }

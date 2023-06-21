@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace doska.Services;
 
-public interface ISignInService
+internal interface ISignInService
 {
     Task<ActionResult<SigninResponse>> SignInAsync(SigninRequest signinRequest);
 }

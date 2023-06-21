@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace doska.Controllers;
 [ApiController]
 [Route("[controller]/[action]")]
-public class UserController : Controller
+internal sealed class UserController : Controller
 {
     private readonly IUserService _userService;
     private readonly ISignInService _signInService;

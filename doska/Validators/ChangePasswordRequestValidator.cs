@@ -3,7 +3,7 @@ using FluentValidation;
 
 namespace doska.Validators;
 
-public class ChangePasswordRequestValidator : AbstractValidator<ChangePasswordRequest>
+internal sealed class ChangePasswordRequestValidator : AbstractValidator<ChangePasswordRequest>
 {
     public ChangePasswordRequestValidator()
     {

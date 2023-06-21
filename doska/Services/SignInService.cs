@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace doska.Services;
 
-public class SignInService : ISignInService
+internal sealed class SignInService : ISignInService
 {
     private readonly UserManager<User> _userManager;
     private readonly ITokenService _tokenService;

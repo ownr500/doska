@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace doska.Services;
 
-public interface IUserService
+internal interface IUserService
 {
     Task<IActionResult> RegisterAsync(RegisterRequest registerRequest);
     Task<ActionResult> DeleteAsync();

@@ -1,6 +1,6 @@
 ﻿namespace doska.DTO;
 
-public class PictureDto
+internal sealed class PictureDto
 {
     public Guid Id { get; set; }
     public byte[] PictureBytes { get; set; } = default!;

@@ -4,7 +4,7 @@ using FluentValidation;
 
 namespace doska.Validators;
 
-public class UserInfoByIdRequestValidator : AbstractValidator<UserInfoByIdRequest>
+internal sealed class UserInfoByIdRequestValidator : AbstractValidator<UserInfoByIdRequest>
 {
     public UserInfoByIdRequestValidator(IUserService userService)
     {

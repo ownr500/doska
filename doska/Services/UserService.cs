@@ -4,11 +4,10 @@ using doska.DTO;
 using doska.Extensions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace doska.Services;
 
-public class UserService : IUserService
+internal sealed class UserService : IUserService
 {
     private readonly UserManager<User> _userManager;
     private readonly IHttpContextAccessor _contextAccessor;
@@ -30,7 +29,7 @@ public class UserService : IUserService
             Id = Guid.NewGuid(),
             PictureBytes = memoryStream.ToArray()
         };
-        
+
         var user = new User
         {
             IsActive = true,
@@ -85,7 +84,7 @@ public class UserService : IUserService
     {
         var user = await _userManager.FindByIdAsync(infoByIdRequest.Id.ToString());
         var userPosts = GetUserPostDtos(user);
-        
+
         return new UserInfoByIdResponse
         {
             Id = user.Id,
@@ -94,6 +93,7 @@ public class UserService : IUserService
             UserPosts = userPosts
         };
     }
+
     public Task<List<UserListDto>> GetAllUsers()
     {
         IQueryable<User> users = _userManager.Users;

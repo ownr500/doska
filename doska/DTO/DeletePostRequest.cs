@@ -1,6 +1,6 @@
 namespace doska.DTO;
 
-public class DeletePostRequest
+internal sealed class DeletePostRequest
 {
     public Guid PostId { get; set; }
 }

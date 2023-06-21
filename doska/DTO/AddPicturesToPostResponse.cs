@@ -2,7 +2,7 @@ using doska.Data.Entities;
 
 namespace doska.DTO;
 
-public class AddPicturesToPostResponse
+internal sealed class AddPicturesToPostResponse
 {
     public List<Picture> Pictures { get; set; } = default!;
 }

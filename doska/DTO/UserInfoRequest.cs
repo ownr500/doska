@@ -1,6 +1,6 @@
 ﻿namespace doska.DTO;
 
-public class UserInfoRequest
+internal sealed class UserInfoRequest
 {
     public string Email { get; set; } = default!;
 }
