@@ -64,19 +64,27 @@ public class UserService : IUserService
     public async Task<UserInfoResponse> GetUserInfoAsync(UserInfoRequest userInfoRequest)
     {
         var user = await _userManager.FindByEmailAsync(userInfoRequest.Email);
+        var userPosts = GetUserPostDtos(user);
         return new UserInfoResponse
         {
             FirstName = user.FirstName,
             LastName = user.LastName,
-            CreationDate = user.CreationDate
+            CreationDate = user.CreationDate,
+            Posts = userPosts
         };
+    }
+
+    private static IEnumerable<UserPostDto> GetUserPostDtos(User user)
+    {
+        var userPosts = user.Posts.Select(post => post.ToDto());
+        return userPosts;
     }
 
 
     public async Task<UserInfoByIdResponse> GetUserInfoByIdAsync(UserInfoByIdRequest infoByIdRequest)
     {
         var user = await _userManager.FindByIdAsync(infoByIdRequest.Id.ToString());
-        var userPosts = user.Posts.Select(post => post.ToDto());
+        var userPosts = GetUserPostDtos(user);
         
         return new UserInfoByIdResponse
         {
