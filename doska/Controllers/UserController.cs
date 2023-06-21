@@ -37,7 +37,7 @@ public class UserController : Controller
 
     [HttpPost]
     [Authorize]
-    public Task<ActionResult<ChangePasswordResponse>> ChangePassword(ChangePasswordRequest changePasswordRequest)
+    public Task<IActionResult> ChangePassword(ChangePasswordRequest changePasswordRequest)
     {
         return _userService.ChangePasswordAsync(changePasswordRequest);
     }

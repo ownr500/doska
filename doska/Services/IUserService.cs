@@ -8,7 +8,7 @@ public interface IUserService
 {
     Task<IActionResult> RegisterAsync(RegisterRequest registerRequest);
     Task<ActionResult> DeleteAsync();
-    Task<ActionResult<ChangePasswordResponse>> ChangePasswordAsync(ChangePasswordRequest changePasswordRequest);
+    Task<IActionResult> ChangePasswordAsync(ChangePasswordRequest changePasswordRequest);
     Task<UserInfoResponse> GetUserInfoAsync(UserInfoRequest userInfoRequest);
     Task<List<UserListDto>> GetAllUsers();
     Task<User> GetCurrentUserAsync();

@@ -54,16 +54,12 @@ public class UserService : IUserService
         return new NotFoundResult();
     }
 
-    public async Task<ActionResult<ChangePasswordResponse>> ChangePasswordAsync(ChangePasswordRequest changePasswordRequest)
+    public async Task<IActionResult> ChangePasswordAsync(ChangePasswordRequest changePasswordRequest)
     {
         var user = await GetCurrentUserAsync();
         var result = await _userManager.ChangePasswordAsync(user, changePasswordRequest.Password,
             changePasswordRequest.NewPassword);
-        return new ActionResult<ChangePasswordResponse>(new ChangePasswordResponse
-        {
-            Succeeded = result.Succeeded,
-            Errors = result.Errors
-        });
+        return new OkResult();
     }
 
     public async Task<UserInfoResponse> GetUserInfoAsync(UserInfoRequest userInfoRequest)
