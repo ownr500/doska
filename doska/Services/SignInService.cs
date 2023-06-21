@@ -23,7 +23,7 @@ public class SignInService : ISignInService
             return new SigninResponse
             {
                 Success = false,
-                Error = "FAILED"
+                Error = "Wrong password"
             };
         }
         return new SigninResponse {Success = true, Token = _tokenService.Generate(user)};

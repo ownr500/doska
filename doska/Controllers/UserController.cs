@@ -23,7 +23,7 @@ public class UserController : Controller
     }
 
     [HttpPost]
-    public Task<ActionResult<SigninResponse>> Signin([FromBody] SigninRequest signinRequest)
+    public Task<ActionResult<SigninResponse>> Signin([FromForm] SigninRequest signinRequest)
     {
         return _signInService.SignInAsync(signinRequest);
     }
