@@ -76,24 +76,6 @@ internal sealed class PostService : IPostService
             .ToListAsync();
     }
 
-    public async Task<List<UserPostDto>> GetUserPostsAsync()
-    {
-        var user = await _userService.GetCurrentUserAsync();
-        var posts = _appDbContext.Posts.Where(post => post.UserId == user.Id);
-        return posts.Select(post => new UserPostDto
-        {
-            PostId = post.Id,
-            Title = post.Title,
-            Content = post.Content,
-            ExpirationDate = post.ExpirationDate,
-            PictureDtos = post.Pictures.Select(item => new PictureDTO()
-            {
-                Id = item.Id,
-                PictureBytes = item.PictureBytes
-            }).ToList()
-        }).ToList();
-    }
-
     public async Task<IActionResult> EditPostAsync(PostEditRequest postEditRequest)
     {
         //user post validation

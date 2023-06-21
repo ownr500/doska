@@ -1,6 +1,7 @@
 ﻿using doska.Data;
 using doska.Data.Entities;
 using doska.DTO;
+using doska.Extensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -85,12 +86,14 @@ public class UserService : IUserService
     public async Task<UserInfoByIdResponse> GetUserInfoByIdAsync(UserInfoByIdRequest infoByIdRequest)
     {
         var user = await _userManager.FindByIdAsync(infoByIdRequest.Id.ToString());
+        var userPosts = user.Posts.Select(post => post.ToDto());
+        
         return new UserInfoByIdResponse
         {
             Id = user.Id,
             FirstName = user.FirstName,
             RegistrationDate = user.CreationDate,
-            Posts = user.Posts
+            UserPosts = userPosts
         };
     }
     public Task<List<UserListDTO>> GetAllUsers()

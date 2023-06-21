@@ -42,13 +42,6 @@ public class PostController : ControllerBase
         return _postService.GetAllPostsAsync();
     }
 
-    [HttpGet]
-    [Authorize]
-    public Task<List<UserPostDto>> GetUserPosts()
-    {
-        return _postService.GetUserPostsAsync();
-    }
-
     [HttpPost]
     [Authorize]
     public Task<IActionResult> EditPost([FromForm]PostEditRequest postEditRequest)
