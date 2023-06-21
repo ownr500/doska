@@ -65,7 +65,7 @@ public class UserController : Controller
 
     [HttpPost]
     [Authorize(Roles = "Admin")]
-    public Task<DeactivateUserResponse> DeactivateUser(DeactivateUserRequest deactivateUserRequest)
+    public Task<IActionResult> DeactivateUser(DeactivateUserRequest deactivateUserRequest)
     {
         return _userService.DeactivateUserAsync(deactivateUserRequest);
     }

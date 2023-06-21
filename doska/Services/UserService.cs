@@ -97,7 +97,7 @@ public class UserService : IUserService
     public Task<List<UserListDto>> GetAllUsers()
     {
         IQueryable<User> users = _userManager.Users;
-        List<UserListDto> usersList = users.Select(item => new UserListDto()
+        List<UserListDto> usersList = users.Select(item => new UserListDto
         {
             Id = item.Id,
             IsActive = item.IsActive,
@@ -116,25 +116,12 @@ public class UserService : IUserService
         return await _userManager.FindByIdAsync(userId);
     }
 
-    public async Task<DeactivateUserResponse> DeactivateUserAsync(DeactivateUserRequest deactivateUserRequest)
+    public async Task<IActionResult> DeactivateUserAsync(DeactivateUserRequest deactivateUserRequest)
     {
         var user = await _userManager.FindByIdAsync(deactivateUserRequest.Id.ToString());
-        if (user.IsActive)
-        {
-            user.IsActive = false;
-            await _userManager.UpdateAsync(user);
-            return new DeactivateUserResponse
-            {
-                Id = user.Id,
-                IsActive = user.IsActive
-            };
-        }
-
-        return new DeactivateUserResponse
-        {
-            Id = user.Id,
-            IsActive = user.IsActive
-        };
+        user.IsActive = false;
+        await _userManager.UpdateAsync(user);
+        return new OkResult();
     }
 
     public async Task<ActionResult> ActivateAllAsync()

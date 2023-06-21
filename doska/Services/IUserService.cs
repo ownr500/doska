@@ -12,7 +12,7 @@ public interface IUserService
     Task<UserInfoResponse> GetUserInfoAsync(UserInfoRequest userInfoRequest);
     Task<List<UserListDto>> GetAllUsers();
     Task<User> GetCurrentUserAsync();
-    Task<DeactivateUserResponse> DeactivateUserAsync(DeactivateUserRequest deactivateUserRequest);
+    Task<IActionResult> DeactivateUserAsync(DeactivateUserRequest deactivateUserRequest);
     Task<ActionResult> ActivateAllAsync();
     Task<List<UserWithPosts>> GetUsersWithPostsAsync();
     Task<UserInfoByIdResponse> GetUserInfoByIdAsync(UserInfoByIdRequest infoByIdRequest);
