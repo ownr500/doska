@@ -44,7 +44,7 @@ public class UserController : Controller
 
     [HttpPost]
     [Authorize(Roles = "Admin")]
-    public Task<UserInfoResponse> GetUserInfo([FromBody]UserInfoRequest userInfoRequest)
+    public Task<UserInfoResponse> GetUserInfo([FromForm]UserInfoRequest userInfoRequest)
     {
         return _userService.GetUserInfoAsync(userInfoRequest);
     }

@@ -56,7 +56,7 @@ public class UserService : IUserService
     public async Task<IActionResult> ChangePasswordAsync(ChangePasswordRequest changePasswordRequest)
     {
         var user = await GetCurrentUserAsync();
-        var result = await _userManager.ChangePasswordAsync(user, changePasswordRequest.Password,
+        await _userManager.ChangePasswordAsync(user, changePasswordRequest.Password,
             changePasswordRequest.NewPassword);
         return new OkResult();
     }
