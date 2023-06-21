@@ -14,14 +14,12 @@ internal sealed class PostService : IPostService
 {
     private readonly AppDbContext _appDbContext;
     private readonly IUserService _userService;
-    private readonly UserManager<User> _userManager;
     private readonly PostOptions _options;
 
-    public PostService(AppDbContext appDbContext, IUserService userService, UserManager<User>  userManager, IOptions<PostOptions> options)
+    public PostService(AppDbContext appDbContext, IUserService userService, IOptions<PostOptions> options)
     {
         _appDbContext = appDbContext;
         _userService = userService;
-        _userManager = userManager;
         _options = options.Value;
     }
     public async Task<CreatePostResponse> CreatePostAsync(CreatePostRequest createPostRequest)
