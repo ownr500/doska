@@ -126,12 +126,8 @@ public class UserService : IUserService
 
     public async Task<ActionResult> ActivateAllAsync()
     {
-        var users = _appDbContext.Users.Where(user => !user.IsActive);
-        var usersTemp = await users.ToListAsync();
-        foreach (var user in usersTemp)
-        {
-            user.IsActive = true;
-        }
+        var users = _appDbContext.Users.Where(user => !user.IsActive).ToList();
+        users.ForEach(user => user.IsActive = true);
         await _appDbContext.SaveChangesAsync();
         return new OkResult();
     }
