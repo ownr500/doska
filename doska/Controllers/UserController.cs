@@ -17,7 +17,7 @@ public class UserController : Controller
         _signInService = signInService;
     }
     [HttpPost]
-    public Task<RegisterResponse> Register([FromForm] RegisterRequest registerRequest)
+    public Task<IActionResult> Register([FromForm] RegisterRequest registerRequest)
     {
         return _userService.RegisterAsync(registerRequest);
     }

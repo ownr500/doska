@@ -6,7 +6,7 @@ namespace doska.Services;
 
 public interface IUserService
 {
-    Task<RegisterResponse> RegisterAsync(RegisterRequest registerRequest);
+    Task<IActionResult> RegisterAsync(RegisterRequest registerRequest);
     Task<ActionResult> DeleteAsync();
     Task<ActionResult<ChangePasswordResponse>> ChangePasswordAsync(ChangePasswordRequest changePasswordRequest);
     Task<UserInfoResponse> GetUserInfoAsync(UserInfoRequest userInfoRequest);

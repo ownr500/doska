@@ -22,7 +22,7 @@ public class UserService : IUserService
         _appDbContext = appDbContext;
     }
 
-    public async Task<RegisterResponse> RegisterAsync(RegisterRequest registerRequest)
+    public async Task<IActionResult> RegisterAsync(RegisterRequest registerRequest)
     {
         using var memoryStream = new MemoryStream();
         if (registerRequest.Picture != null) await registerRequest.Picture.CopyToAsync(memoryStream);
@@ -43,12 +43,7 @@ public class UserService : IUserService
         };
         _appDbContext.Pictures.Add(picture);
         var result = await _userManager.CreateAsync(user, registerRequest.Password);
-        var response = new RegisterResponse
-        {
-            Succeeded = result.Succeeded,
-            Errors = result.Errors
-        };
-        return response;
+        return new OkResult();
     }
 
     public async Task<ActionResult> DeleteAsync()
