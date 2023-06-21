@@ -113,6 +113,7 @@ internal sealed class PostService : IPostService
 
         post.Title = postEditRequest.Title;
         post.Content = postEditRequest.Content;
+        post.Price = postEditRequest.Price;
         
         await _appDbContext.SaveChangesAsync();
         return new OkResult();
