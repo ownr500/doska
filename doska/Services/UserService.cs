@@ -42,7 +42,7 @@ public class UserService : IUserService
             PictureId = picture.Id
         };
         _appDbContext.Pictures.Add(picture);
-        var result = await _userManager.CreateAsync(user, registerRequest.Password);
+        await _userManager.CreateAsync(user, registerRequest.Password);
         return new OkResult();
     }
 
