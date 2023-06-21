@@ -1,6 +1,6 @@
 ﻿namespace doska.Services;
 
-internal interface IPermissionsService
+public interface IPermissionsService
 {
     Task<bool> UserAuthorNorAdminAsync(Guid postId, CancellationToken ct);
 }

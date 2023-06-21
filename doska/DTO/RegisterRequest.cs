@@ -1,6 +1,6 @@
 ﻿namespace doska.DTO;
 
-internal sealed class RegisterRequest
+public class RegisterRequest
 {
     public string FirstName { get; init; } = default!;
     public string LastName { get; init; } = default!;

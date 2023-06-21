@@ -21,7 +21,7 @@ internal sealed class PostService : IPostService
         _userService = userService;
         _options = options.Value;
     }
-    public async Task<CreatePostResponse> CreatePostAsync(CreatePostRequest createPostRequest)
+    public async Task<CreatePostResponse> CreatePostAsync([FromForm]CreatePostRequest createPostRequest)
     {
         var user = await _userService.GetCurrentUserAsync();
         var currentDate = DateTime.Now;
@@ -29,6 +29,7 @@ internal sealed class PostService : IPostService
         {
             Title = createPostRequest.Title,
             Content = createPostRequest.Content,
+            Price = createPostRequest.Price,
             CreationDate = currentDate,
             ExpirationDate = currentDate.AddDays(15),
             UserId = user.Id

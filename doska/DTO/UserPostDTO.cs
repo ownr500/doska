@@ -1,6 +1,6 @@
 ﻿namespace doska.DTO;
 
-internal sealed class UserPostDto
+public class UserPostDto
 {
     public Guid Id { get; set; }
     public string Title { get; set; } = default!;

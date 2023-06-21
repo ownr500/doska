@@ -1,6 +1,6 @@
 ﻿namespace doska.DTO;
 
-internal sealed class DeactivateUserRequest
+public class DeactivateUserRequest
 {
     public Guid Id { get; set; }
 }

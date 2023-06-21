@@ -1,6 +1,6 @@
 ﻿namespace doska.DTO;
 
-internal sealed class UserListDto
+public class UserListDto
 {
     public Guid Id { get; set; }
     public bool IsActive { get; set; }

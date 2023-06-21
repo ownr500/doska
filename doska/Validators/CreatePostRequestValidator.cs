@@ -14,5 +14,7 @@ internal sealed class CreatePostRequestValidator : AbstractValidator<CreatePostR
         RuleFor(request => request.Content)
             .NotEmpty()
             .MaximumLength(750);
+        RuleFor(request => request.Price)
+            .GreaterThanOrEqualTo(0);
     }
 }

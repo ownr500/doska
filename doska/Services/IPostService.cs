@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace doska.Services;
 
-internal interface IPostService
+public interface IPostService
 { 
     Task<CreatePostResponse> CreatePostAsync(CreatePostRequest createPostRequest);
     Task<List<UserPostDto>> GetAllPostsAsync();

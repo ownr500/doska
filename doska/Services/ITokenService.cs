@@ -2,7 +2,7 @@ using doska.Data.Entities;
 
 namespace doska.Services;
 
-internal interface ITokenService
+public interface ITokenService
 {
     string Generate(User user);
 }

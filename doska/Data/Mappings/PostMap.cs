@@ -12,6 +12,7 @@ public class PostMap : IEntityTypeConfiguration<Post>
         builder.Property(post => post.Id).HasDefaultValueSql("newsequentialid()");
         builder.Property(post => post.Title).IsRequired();
         builder.Property(post => post.Content).IsRequired();
+        builder.Property(post => post.Price).IsRequired();
         builder.HasOne(post => post.User)
             .WithMany(user => user.Posts)
             .HasForeignKey(post => post.UserId)

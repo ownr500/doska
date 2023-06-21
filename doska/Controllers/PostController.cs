@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace doska.Controllers;
 [ApiController]
 [Route("[controller]/[action]")]
-internal sealed class PostController : ControllerBase
+public class PostController : ControllerBase
 {
     private readonly IPostService _postService;
 

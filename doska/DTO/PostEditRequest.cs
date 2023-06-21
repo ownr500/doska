@@ -2,7 +2,7 @@ using System.Collections.ObjectModel;
 
 namespace doska.DTO;
 
-internal sealed class PostEditRequest
+public class PostEditRequest
 {
     public Guid PostId { get; set; } = default!;
     public string Title { get; set; } = default!;
