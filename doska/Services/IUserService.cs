@@ -14,7 +14,6 @@ public interface IUserService
     Task<User> GetCurrentUserAsync();
     Task<IActionResult> DeactivateUserAsync(DeactivateUserRequest deactivateUserRequest);
     Task<ActionResult> ActivateAllAsync();
-    Task<List<UserWithPosts>> GetUsersWithPostsAsync();
     Task<UserInfoByIdResponse> GetUserInfoByIdAsync(UserInfoByIdRequest infoByIdRequest);
     Task<bool> UserExists(Guid userId, CancellationToken ct);
 }

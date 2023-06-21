@@ -132,20 +132,6 @@ public class UserService : IUserService
         return new OkResult();
     }
 
-    public async Task<List<UserWithPosts>> GetUsersWithPostsAsync()
-    {
-        var users = await _userManager.Users.ToListAsync();
-        var usersWithPosts = users.Select(user => new UserWithPosts
-        {
-            UserId = user.Id,
-            FirstName = user.FirstName,
-            LastName = user.LastName,
-            Titles = user.Posts.Select(post => post.Title).ToList()
-        }).ToList();
-
-        return usersWithPosts;
-    }
-
     public async Task<bool> UserExists(Guid userId, CancellationToken ct)
     {
         return await _userManager.FindByIdAsync(userId.ToString()) != null;
