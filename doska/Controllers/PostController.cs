@@ -37,7 +37,7 @@ public class PostController : ControllerBase
     }
     
     [HttpGet]
-    public Task<List<PostDto>> GetAllPosts()
+    public Task<List<UserPostDto>> GetAllPosts()
     {
         return _postService.GetAllPostsAsync();
     }

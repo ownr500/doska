@@ -1,6 +1,7 @@
 using doska.Data;
 using doska.Data.Entities;
 using doska.DTO;
+using doska.Extensions;
 using doska.Options;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -57,22 +58,10 @@ internal sealed class PostService : IPostService
         };
     }
 
-    public async Task<List<PostDto>> GetAllPostsAsync()
+    public async Task<List<UserPostDto>> GetAllPostsAsync()
     {
         return await _appDbContext.Posts
-            .Select(post =>
-                new PostDto
-                {
-                    Id = post.Id,
-                    Title = post.Title,
-                    Content = post.Content,
-                    ExpirationDate = post.ExpirationDate,
-                    FirstName = post.User.FirstName,
-                    UserId = post.UserId,
-                    Pictures = post.Pictures.Select(item => item.PictureBytes).ToList()
-                }
-            )
-            .OrderBy(post => post.ExpirationDate)
+            .Select(post => post.ToDto())
             .ToListAsync();
     }
 
