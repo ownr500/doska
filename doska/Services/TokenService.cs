@@ -11,9 +11,9 @@ namespace doska.Services;
 public class TokenService : ITokenService
 {
     private readonly JwtSecurityTokenHandler _jwtSecurityTokenHandler;
-    private readonly JWTOptions _options;
+    private readonly JwtOptions _options;
 
-    public TokenService(IOptions<JWTOptions> options, JwtSecurityTokenHandler jwtSecurityTokenHandler)
+    public TokenService(IOptions<JwtOptions> options, JwtSecurityTokenHandler jwtSecurityTokenHandler)
     {
         _jwtSecurityTokenHandler = jwtSecurityTokenHandler;
         _options = options.Value;

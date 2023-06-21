@@ -5,9 +5,9 @@ namespace doska.Extensions;
 
 internal static class PictureExtensions
 {
-    public static PictureDTO ToDto(this Picture picture)
+    public static PictureDto ToDto(this Picture picture)
     {
-        return new PictureDTO
+        return new PictureDto
         {
             Id = picture.Id,
             PictureBytes = picture.PictureBytes

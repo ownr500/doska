@@ -96,10 +96,10 @@ public class UserService : IUserService
             UserPosts = userPosts
         };
     }
-    public Task<List<UserListDTO>> GetAllUsers()
+    public Task<List<UserListDto>> GetAllUsers()
     {
         IQueryable<User> users = _userManager.Users;
-        List<UserListDTO> usersList = users.Select(item => new UserListDTO()
+        List<UserListDto> usersList = users.Select(item => new UserListDto()
         {
             Id = item.Id,
             IsActive = item.IsActive,

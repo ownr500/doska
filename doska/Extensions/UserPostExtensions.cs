@@ -5,9 +5,9 @@ namespace doska.Extensions;
 
 internal static class UserPostExtensions
 {
-    public static UserPost ToDto(this Post post)
+    public static UserPostDto ToDto(this Post post)
     {
-        return new UserPost
+        return new UserPostDto
         {
             Id = post.Id,
             Title = post.Title,

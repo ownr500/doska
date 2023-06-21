@@ -58,7 +58,7 @@ public class UserController : Controller
 
     [HttpGet]
     [Authorize(Roles = "Admin")]
-    public Task<List<UserListDTO>> GetUsers()
+    public Task<List<UserListDto>> GetUsers()
     {
         return _userService.GetAllUsers();
     }

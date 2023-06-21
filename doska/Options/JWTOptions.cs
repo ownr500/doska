@@ -1,6 +1,6 @@
 ﻿namespace doska.Options;
 
-public class JWTOptions
+public class JwtOptions
 {
     public string ValidIssuer { get; set; }
     public string ValidAudience { get; set; }

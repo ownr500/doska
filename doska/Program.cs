@@ -109,7 +109,7 @@ builder.Services.Configure<FormOptions>(options =>
     options.MultipartBodyLengthLimit = 750 * 1024;
     options.ValueCountLimit = 5;
 });
-builder.Services.Configure<JWTOptions>(config.GetSection("JWT"));
+builder.Services.Configure<JwtOptions>(config.GetSection("JWT"));
 builder.Services.Configure<PostOptions>(config.GetSection(nameof(PostOptions)));
 builder.Services.Configure<UserDefaults>(config.GetSection(nameof(UserDefaults)));
 
