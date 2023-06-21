@@ -1,11 +1,10 @@
-using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Identity;
 
 namespace doska.Data.Entities;
 
 public class User : IdentityUser<Guid>
 {
-  public Guid Id { get; set; } = new ();
+  public override Guid Id { get; set; }
   public bool IsActive { get; set; }
   public string FirstName { get; init; } = string.Empty;
   public string LastName { get; init; } = string.Empty;

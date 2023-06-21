@@ -1,6 +1,4 @@
-﻿using doska.Data.Entities;
-
-namespace doska.Options;
+﻿namespace doska.Options;
 
 internal sealed class PostOptions
 {

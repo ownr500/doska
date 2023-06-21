@@ -15,15 +15,13 @@ internal sealed class PostService : IPostService
     private readonly AppDbContext _appDbContext;
     private readonly IUserService _userService;
     private readonly UserManager<User> _userManager;
-    private readonly UserDefaults _userOptions;
     private readonly PostOptions _options;
 
-    public PostService(AppDbContext appDbContext, IUserService userService, UserManager<User>  userManager, IOptions<PostOptions> options, IOptions<UserDefaults> userOptions)
+    public PostService(AppDbContext appDbContext, IUserService userService, UserManager<User>  userManager, IOptions<PostOptions> options)
     {
         _appDbContext = appDbContext;
         _userService = userService;
         _userManager = userManager;
-        _userOptions = userOptions.Value;
         _options = options.Value;
     }
     public async Task<CreatePostResponse> CreatePostAsync(CreatePostRequest createPostRequest)
@@ -68,7 +66,6 @@ internal sealed class PostService : IPostService
     public async Task<IActionResult> EditPostAsync(PostEditRequest postEditRequest)
     {
         //user post validation
-        var user = await _userService.GetCurrentUserAsync();
         var post = await _appDbContext.Posts.FindAsync(postEditRequest.PostId);
         if (post == null)
         {
@@ -76,43 +73,48 @@ internal sealed class PostService : IPostService
         }
         
         //picture remove
-        var ids = postEditRequest.IdsToRemove;
 
-        foreach (var id in ids)
+        if (postEditRequest.IdsToRemove != null)
         {
-            var picture = await _appDbContext.Pictures.FindAsync(id);
-            if (picture == null)
+            foreach (var id in postEditRequest.IdsToRemove)
             {
-                return new BadRequestObjectResult("wrong picture ids");
-            }
+                var picture = await _appDbContext.Pictures.FindAsync(id);
+                if (picture == null)
+                {
+                    return new BadRequestObjectResult("wrong picture ids");
+                }
 
-            _appDbContext.Pictures.Remove(picture);
+                _appDbContext.Pictures.Remove(picture);
+            }
         }
 
         //upload new pictures
-        
-        if (postEditRequest.Pictures.Count + post.Pictures.Count > _options.PictureOptions.MaxCount)
+        if (postEditRequest.Pictures is { Count: > 0 })
         {
-            return new BadRequestObjectResult("number of uploaded pics exceeded");
-        }
-
-        var picturesToUpload = postEditRequest.Pictures.Select(item =>
-        {
-            using var memoryStream = new MemoryStream();
-            item.CopyTo(memoryStream);
-            var pictureBytes = memoryStream.ToArray();
-            var newPicture = new Picture
+            if (postEditRequest.Pictures.Count + post.Pictures.Count > _options.PictureOptions.MaxCount)
             {
-                Id = Guid.NewGuid(),
-                PictureBytes = pictureBytes
-            };
-            post.Pictures.Add(newPicture);
-            return newPicture;
-        });
+                return new BadRequestObjectResult("number of uploaded pics exceeded");
+            }
+
+            var picturesToUpload = postEditRequest.Pictures.Select(item =>
+            {
+                using var memoryStream = new MemoryStream();
+                item.CopyTo(memoryStream);
+                var pictureBytes = memoryStream.ToArray();
+                var newPicture = new Picture
+                {
+                    Id = Guid.NewGuid(),
+                    PictureBytes = pictureBytes
+                };
+                post.Pictures.Add(newPicture);
+                return newPicture;
+            });
+            await _appDbContext.Pictures.AddRangeAsync(picturesToUpload);
+        }
 
         post.Title = postEditRequest.Title;
         post.Content = postEditRequest.Content;
-        await _appDbContext.Pictures.AddRangeAsync(picturesToUpload);
+        
         await _appDbContext.SaveChangesAsync();
         return new OkResult();
     }

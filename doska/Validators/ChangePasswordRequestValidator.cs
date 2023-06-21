@@ -11,6 +11,7 @@ public class ChangePasswordRequestValidator : AbstractValidator<ChangePasswordRe
             .MinimumLength(6);
         RuleFor(request => request.NewPassword)
             .MinimumLength(6)
-            .Equal(request => request.PasswordConfirmation);
+            .Equal(request => request.PasswordConfirmation)
+            .WithMessage("Пароли не совпадают");
     }
 }

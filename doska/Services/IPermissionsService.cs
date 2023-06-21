@@ -1,6 +1,4 @@
-﻿using doska.Data.Entities;
-
-namespace doska.Services;
+﻿namespace doska.Services;
 
 internal interface IPermissionsService
 {

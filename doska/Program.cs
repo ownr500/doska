@@ -111,7 +111,6 @@ builder.Services.Configure<FormOptions>(options =>
 });
 builder.Services.Configure<JwtOptions>(config.GetSection("JWT"));
 builder.Services.Configure<PostOptions>(config.GetSection(nameof(PostOptions)));
-builder.Services.Configure<UserDefaults>(config.GetSection(nameof(UserDefaults)));
 
 var app = builder.Build();
 
