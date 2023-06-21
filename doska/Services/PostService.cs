@@ -50,7 +50,8 @@ internal sealed class PostService : IPostService
             Id = newPost.Id,
             Title = newPost.Title,
             Content = newPost.Content,
-            ExpirationDate = newPost.ExpirationDate
+            ExpirationDate = newPost.ExpirationDate,
+            Price = newPost.Price
         };
     }
 
