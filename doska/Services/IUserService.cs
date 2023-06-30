@@ -10,7 +10,7 @@ public interface IUserService
     Task<ActionResult> DeleteAsync();
     Task<IActionResult> ChangePasswordAsync(ChangePasswordRequest changePasswordRequest);
     Task<UserInfoResponse> GetUserInfoAsync(UserInfoRequest userInfoRequest);
-    Task<List<UserListDto>> GetAllUsers();
+    List<UserListDto> GetAllUsers();
     Task<User> GetCurrentUserAsync();
     Task<IActionResult> DeactivateUserAsync(DeactivateUserRequest deactivateUserRequest);
     Task<ActionResult> ActivateAllAsync();

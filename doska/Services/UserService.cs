@@ -94,9 +94,9 @@ internal sealed class UserService : IUserService
         };
     }
 
-    public Task<List<UserListDto>> GetAllUsers()
+    public List<UserListDto> GetAllUsers()
     {
-        IQueryable<User> users = _userManager.Users;
+        var users = _userManager.Users;
         List<UserListDto> usersList = users.Select(item => new UserListDto
         {
             Id = item.Id,
@@ -106,7 +106,7 @@ internal sealed class UserService : IUserService
             LastName = item.LastName,
             CreationDate = item.CreationDate
         }).ToList();
-        return Task.FromResult(usersList);
+        return usersList;
     }
 
     public async Task<User> GetCurrentUserAsync()
