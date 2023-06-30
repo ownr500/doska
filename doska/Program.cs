@@ -104,6 +104,7 @@ builder.Services.AddScoped<ISignInService, SignInService>();
 builder.Services.AddScoped<IPostService, PostService>();
 builder.Services.AddScoped<JwtSecurityTokenHandler>();
 builder.Services.AddScoped<IPermissionsService, PermissionsService>();
+builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.Configure<FormOptions>(options =>
 {
     options.MultipartBodyLengthLimit = 750 * 1024;
