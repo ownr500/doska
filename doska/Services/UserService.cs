@@ -55,9 +55,14 @@ internal sealed class UserService : IUserService
     public async Task<IActionResult> ChangePasswordAsync(ChangePasswordRequest changePasswordRequest)
     {
         var user = await GetCurrentUserAsync();
-        await _userManager.ChangePasswordAsync(user, changePasswordRequest.Password,
+        var result = await _userManager.ChangePasswordAsync(user, changePasswordRequest.Password,
             changePasswordRequest.NewPassword);
-        return new OkResult();
+        if (result.Succeeded)
+        {
+            return new OkResult();
+        }
+
+        return new BadRequestObjectResult("Password change failed");
     }
 
     public async Task<UserInfoResponse> GetUserInfoAsync(UserInfoRequest userInfoRequest)
