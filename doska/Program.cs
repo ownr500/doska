@@ -1,4 +1,9 @@
+using doska.Extensions;
+
 var builder = WebApplication.CreateBuilder(args);
+
+builder.RegisterConfigurationOptions();
+
 
 // Add services to the container.
 
