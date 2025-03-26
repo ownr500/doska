@@ -24,4 +24,9 @@ internal static class ApplicationBuilderExtensions
         var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
         builder.Services.AddDbContext<AppDbContext>(x => x.UseNpgsql(connectionString));
     }
+
+    public static void RegisterServices(this WebApplicationBuilder builder)
+    {
+        builder.Services.AddHttpContextAccessor();
+    }
 }
