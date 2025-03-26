@@ -15,6 +15,9 @@ CHECKLIST.md
 **/.idea/
 .idea/
 
+# Dev
+appsettings.Development.json
+
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
